@@ -1,29 +1,32 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdio.h>
+
 /**
- * main- assign a random number to the  variable n each time it is executed,
+ * main - assign a random number to the variable n each time it is executed
  * if the number is greater than 0: is positive,
- * if the number is less than 0: is negative, followed by a new line,
- * else the number is 0.
- * return: 0 */
+ * if the number is less than 0: is negative,
+ * else the number is 0: is zero followed by a new line
+ * Return: 0
+ */
+
 int main(void)
 {
-	int n;
+int n;
 
-	srand(time(0));
-	n = rand() - RAND_MAX / 2;
-	if (n > 0)
-        {		
-	printf("%d is positive\n", n);
-}
-       else if (n < 0)
+srand(time(0));
+n = rand() - RAND_MAX / 2;
+if (n > 0)
 {
-	printf("%d is negative\n", n);
+printf("%d is positive\n", n);
 }
-else 
+else if (n < 0)
 {
-	printf("%d is zero\n", n);
+printf("%d is negative\n", n);
+}
+else
+{
+printf("%d is zero\n", n);
 }
 return (0);
 }
