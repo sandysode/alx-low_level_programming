@@ -2,7 +2,7 @@
 
 /**
  * add_node_end - Adds a new node at the end of a list_t list
- * @head: Head of the list
+ * @head: The Head of the linked list
  * @str: New value for the node
  *
  * Return: Return the new node
