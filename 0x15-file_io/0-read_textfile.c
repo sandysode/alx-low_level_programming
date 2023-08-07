@@ -8,42 +8,46 @@
  * Return: The actual number of letters it could read and print.
  *         If the file cannot be opened or read, return 0.
  *         If filename is NULL, return 0.
- *         If write fails or doesnt write the expected amount of bytes, ret 0
+ *         If write fails or doesnt write
  */
 ssize_t read_textfile(const char *filename, size_t letters)
 {
+	int fd;
+	ssize_t bytes_read, bytes_written;
+	char *buffer;
+
 	if (filename == NULL)
 		return (0);
 
-	FILE *file = fopen(filename, "r");
-	if (file == NULL)
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
 		return (0);
 
-	char *buffer = malloc(sizeof(char) * letters);
+	buffer = malloc(letters);
 	if (buffer == NULL)
 	{
-		fclose(file);
+		close(fd);
 		return (0);
 	}
 
-	ssize_t read_chars = fread(buffer, sizeof(char), letters, file);
-	if (read_chars == -1)
+	bytes_read = read(fd, buffer, letters);
+	if (bytes_read == -1)
 	{
-		fclose(file);
 		free(buffer);
+		close(fd);
 		return (0);
 	}
 
-	ssize_t written_chars = write(STDOUT_FILENO, buffer, read_chars);
-	if (written_chars == -1 || written_chars != read_chars)
+	bytes_written = write(STDOUT_FILENO, buffer, bytes_read);
+	if (bytes_written == -1 || bytes_written != bytes_read)
 	{
-		fclose(file);
 		free(buffer);
+		close(fd);
 		return (0);
 	}
 
-	fclose(file);
 	free(buffer);
+	close(fd);
 
-	return (written_chars);
+	return (bytes_written);
 }
