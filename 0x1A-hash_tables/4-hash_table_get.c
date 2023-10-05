@@ -1,19 +1,29 @@
 #include "hash_tables.h"
+
 /**
- * hash_table_get - function dat retrieves a val associated with a key
+ * hash_table_get - Retrieve value associated with
+ *      a key in a hash table.
+ * @ht: A pointer to hash table.
+ * @key: The key to get the value of.
  *
- * @ht: Hash table
- * @key: Key
- *
- * Return: Val of d associated with d element
- **/
+ * Return: If key cannot be matched - NULL.
+ *         Otherwise - the value associated with key in ht.
+ */
 char *hash_table_get(const hash_table_t *ht, const char *key)
 {
-	unsigned int index = key_index((unsigned char *)key, ht->size);
-	hash_node_t *current = ht->array[index];
+	hash_node_t *node;
+	unsigned long int index;
 
-	if (!ht || !key || strlen(key) == 0 || !ht->array || ht->size == 0)
+	if (ht == NULL || key == NULL || *key == '\0')
 		return (NULL);
 
-	while (current)
-	{
+	index = key_index((const unsigned char *)key, ht->size);
+	if (index >= ht->size)
+		return (NULL);
+
+	node = ht->array[index];
+	while (node && strcmp(node->key, key) != 0)
+		node = node->next;
+
+	return ((node == NULL) ? NULL : node->value);
+}
